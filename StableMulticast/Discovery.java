@@ -6,6 +6,8 @@ import java.net.MulticastSocket;
 
 public class Discovery extends Thread {
     private final MulticastServer server;
+    private static int bufferSize = 1024;
+    private byte[] buffer = new byte[bufferSize];
 
     public Discovery(MulticastServer server) {
         this.server = server;
@@ -18,18 +20,17 @@ public class Discovery extends Thread {
                 // Simulate discovery process
                 Thread.sleep(5000); // Wait for 5 seconds before next discovery
                 System.out.println("Discovery process running...");
-                String message = "Looking";
-                MulticastSocket multicastSocket = server.getSocket();
-                DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), server.getPort());
-
-                multicastSocket.send(packet);
-                System.out.println("Discovery message sent: " + message);
+                String message = "Who's listening";
+                MulticastSocket socket = server.getSocket();
+                DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), server.getAddress(), server.getPort());
+                try {
+                    socket.send(packet);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             } catch (InterruptedException e) {
                 System.err.println("Discovery thread interrupted: " + e.getMessage());
-                break;
-            } catch (IOException e) {
-                System.err.println("IO error: " + e.getMessage());
                 break;
             }
         }

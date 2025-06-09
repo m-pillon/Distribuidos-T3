@@ -25,8 +25,8 @@ public class UnicastServer extends Thread {
         this.socket = new DatagramSocket(port, address);
     }
 
-    public String getAddress() {
-        return address.getHostAddress();
+    public InetAddress getAddress() {
+        return address;
     }
 
     public int getPort() {

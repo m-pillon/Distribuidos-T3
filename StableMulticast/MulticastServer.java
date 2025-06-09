@@ -22,7 +22,7 @@ public class MulticastServer extends Thread {
         this.multicastSocket.joinGroup(multicastGroup);
     }
 
-    public String getAddress() {
+    public InetAddress getAddress() {
         return unicastServer.getAddress();
     }
 
