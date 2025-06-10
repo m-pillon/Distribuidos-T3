@@ -19,7 +19,7 @@ public class Discovery extends Thread {
             try {
                 // Simulate discovery process
                 Thread.sleep(5000); // Wait for 5 seconds before next discovery
-                System.out.println("Discovery process running...");
+                // System.out.println("Discovery process running...");
                 String message = "Who's listening";
                 MulticastSocket socket = server.getSocket();
                 DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), server.getAddress(), server.getPort());

@@ -64,7 +64,8 @@ public class UnicastServer extends Thread {
 
                 ByteArrayInputStream byteStream = new ByteArrayInputStream(packet.getData());
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteStream);
-                Message msg = (Message) objectInputStream.readObject();
+                Message msg = new Message((String) objectInputStream.readObject(), packet.getAddress().getHostAddress() + ":" + packet.getPort(),
+                        stableMulticast.vectorClock);
                 stableMulticast.addToBuffer(msg);
                 stableMulticast.updateVectorClock(msg.getSenderPort(), msg.getVectorClock());
 

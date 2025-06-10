@@ -14,7 +14,6 @@ public class Main {
             System.out.println("Digite a mensagem:");
             String message = scanner.nextLine();
             multicast.msend(message, client);
-            
         }
     }
 }

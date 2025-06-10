@@ -10,7 +10,7 @@ public class StableMulticast {
     private final Discovery discovery;
     private final String ipPort;
 
-    private final ArrayList<Integer> vectorClock = new ArrayList<>();
+    protected final ArrayList<Integer> vectorClock = new ArrayList<>();
     private final ArrayList<Message> buffer = new ArrayList<>();
     protected final Object ipLock = new Object();
     protected final ArrayList<String> ipList = new ArrayList<>();

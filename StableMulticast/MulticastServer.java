@@ -44,14 +44,15 @@ public class MulticastServer extends Thread {
                 multicastSocket.receive(packet);
                 
                 String message = new String(packet.getData(), 0, packet.getLength());
+
                 System.out.println("Received multicast message: " + message);
                 
-                // add ip to ipTable
+                // // add ip to ipTable
                 InetAddress senderAddress = packet.getAddress();
                 int senderPort = packet.getPort();
                 String senderInfo = senderAddress.getHostAddress() + ":" + senderPort;
-                unicastServer.updateMulticastIpTable(senderInfo);
-                
+                // unicastServer.updateMulticastIpTable(senderInfo);
+
                 // Process the received message
                 if (message.equals("Who's listening")){
                     String signalMessage = unicastServer.getAddress() + ":" + unicastServer.getPort();
@@ -60,6 +61,7 @@ public class MulticastServer extends Thread {
                     multicastSocket.send(sendPacket);
                 } else {
                     synchronized (ipTableLock){
+                        unicastServer.updateMulticastIpTable(senderInfo);
                         ipTable.add(message);
                     }
                 }
