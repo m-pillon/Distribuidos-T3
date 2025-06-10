@@ -33,6 +33,15 @@ public class UnicastServer extends Thread {
         return port;
     }
 
+    public void updateMulticastIpTable(String ip) {
+        synchronized (stableMulticast.ipLock) {
+            if (!stableMulticast.ipList.contains(ip)) {
+                stableMulticast.ipList.add(ip);
+                System.out.println("Added to multicast IP table: " + ip);
+            }
+        }
+    }
+
     public void send(Message msg, String ip, String port) throws java.io.IOException {
         byte[] data;
         try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream();

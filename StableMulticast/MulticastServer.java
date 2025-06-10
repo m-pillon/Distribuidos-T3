@@ -46,6 +46,12 @@ public class MulticastServer extends Thread {
                 String message = new String(packet.getData(), 0, packet.getLength());
                 System.out.println("Received multicast message: " + message);
                 
+                // add ip to ipTable
+                InetAddress senderAddress = packet.getAddress();
+                int senderPort = packet.getPort();
+                String senderInfo = senderAddress.getHostAddress() + ":" + senderPort;
+                unicastServer.updateMulticastIpTable(senderInfo);
+                
                 // Process the received message
                 if (message.equals("Who's listening")){
                     String signalMessage = unicastServer.getAddress() + ":" + unicastServer.getPort();

@@ -12,8 +12,8 @@ public class StableMulticast {
 
     private final ArrayList<Integer> vectorClock = new ArrayList<>();
     private final ArrayList<Message> buffer = new ArrayList<>();
-    private final Object ipLock = new Object();
-    private final ArrayList<String> ipList = new ArrayList<>();
+    protected final Object ipLock = new Object();
+    protected final ArrayList<String> ipList = new ArrayList<>();
     private final Object bufferLock = new Object();
     private final Object vectorClockLock = new Object();
     
@@ -106,6 +106,15 @@ public class StableMulticast {
         }
     }
 
+    public void updateIpTable(String ip) {
+        synchronized (ipLock) {
+            if (!ipList.contains(ip)) {
+                ipList.add(ip);
+                System.out.println("Added to ipTable: " + ip);
+            }
+        }
+    }   
+
     public void msend(String msg, IStableMulticast client) {
         /*
          * msg.VC <- MC[i][*]
@@ -116,6 +125,7 @@ public class StableMulticast {
 
         synchronized (vectorClockLock) {
             updateVectorClock();
+
             ArrayList<Integer> currentVectorClock = new ArrayList<>(vectorClock);
             Message message = new Message(msg, ipPort, currentVectorClock);
             addToBuffer(message);
