@@ -41,7 +41,7 @@ public class UnicastServer extends Thread {
             objectOutputStream.writeObject(msg.getContent());
             data = byteStream.toByteArray();
         }
-
+        ip = ip.replace("localhost/", "");
         DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(ip), Integer.parseInt(port));
         socket.send(packet);
     }
