@@ -38,7 +38,7 @@ public class UnicastServer extends Thread {
         try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream)) {
             // Serialize the message object
-            objectOutputStream.writeObject(msg);
+            objectOutputStream.writeObject(msg.getContent());
             data = byteStream.toByteArray();
         }
 
