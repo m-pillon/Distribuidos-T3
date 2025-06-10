@@ -38,6 +38,7 @@ public class MulticastServer extends Thread {
     public void run() {
         while(true) {
             try {
+                // recebe um pacote
                 byte[] buffer = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 multicastSocket.receive(packet);
@@ -49,6 +50,7 @@ public class MulticastServer extends Thread {
                 if (message.equals("Who's listening")){
                     String signalMessage = unicastServer.getAddress() + ":" + unicastServer.getPort();
                     DatagramPacket sendPacket = new DatagramPacket(signalMessage.getBytes(), signalMessage.length(), multicastGroup, port);
+                    // envia a resposta para o grupo multicast
                     multicastSocket.send(sendPacket);
                 } else {
                     synchronized (ipTableLock){

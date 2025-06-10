@@ -48,10 +48,10 @@ public class StableMulticast {
         synchronized (bufferLock) {
             ArrayList<Message> toRemove = new ArrayList<>();
             for (Message msg : buffer) {
-                int senderIndex = Integer.parseInt(msg.getSenderPort().split(":")[1]) - 1; // Assuming port is in format "ip:port"
+                int senderIndex = Integer.parseInt(msg.getSenderPort().split(":")[1]) - 1; // port is in format "ip:port"
                 boolean canDiscard = true;
 
-                // Check if the message can be discarded
+                // check if the message can be discarded
                 for (int i = 0; i < vectorClock.size(); i++) {
                     if (i != senderIndex && vectorClock.get(i) < msg.getVectorClock().get(senderIndex)) {
                         canDiscard = false;
