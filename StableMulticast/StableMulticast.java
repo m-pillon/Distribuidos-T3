@@ -48,7 +48,9 @@ public class StableMulticast {
         synchronized (bufferLock) {
             ArrayList<Message> toRemove = new ArrayList<>();
             for (Message msg : buffer) {
-                int senderIndex = Integer.parseInt(msg.getSenderPort().split(":")[1]) - 1; // port is in format "ip:port"
+                // int senderIndex = Integer.parseInt(msg.getSenderPort().split(":")[1]); // port is in format "ip:port"
+                int senderIndex = msg.getVectorClock().indexOf(msg.getVectorClock().get(0)); // Assuming the first element is the sender's index
+                
                 boolean canDiscard = true;
 
                 // check if the message can be discarded
@@ -61,7 +63,7 @@ public class StableMulticast {
 
                 if (canDiscard) {
                     toRemove.add(msg);
-                    System.out.println("Discarding message: " + msg.getContent());
+                    //System.out.println("Discarding message: " + msg.getContent());
                 }
             }
             buffer.removeAll(toRemove);
